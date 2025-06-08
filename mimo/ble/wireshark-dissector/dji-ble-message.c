@@ -23,7 +23,7 @@ static const value_string message_type_string[] = {
     { 0x400081, "device_info" },
     { 0x000099, "field_value" },
     { 0x0000F1, "keep_alive_F1?" },
-    { 0x000280, "pairing_started" },
+    { 0x000280, "ready?" },
     { 0x40028E, "start_stop_streaming" },
     { 0xC0028E, "unknown_C0028E" },
     { 0x4002E1, "prepare_to_livestream" },
@@ -36,8 +36,10 @@ static const value_string message_type_string[] = {
     { 0x400745, "set_pairing_pin" },
     { 0xC00746, "pair" },
     { 0x400747, "connect_to_wifi" },
+    { 0x4007AB, "unknown_4007AB" },
     { 0xC007AB, "unknown_C007AB" },
     { 0x4007AC, "wifi_scan_results" },
+    { 0xC007AC, "unknown_C007AC" },
     { 0x400878, "configure_streaming" },
     { 0x000D02, "streaming_status?" },
     { 0x042700, "pairing_required" },
@@ -47,17 +49,14 @@ static const value_string message_type_string[] = {
 
 static int dissect_dji_mimo_ble(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_)
 {
-    int offset = 0;
-    proto_item *ti;
-    proto_tree *st;
-
     if (tvb_get_guint8(tvb, 0) != 0x55) {
         return 0;
     }
 
-    ti = proto_tree_add_item(tree, proto_dji_mimo_ble, tvb, 0, -1, ENC_NA);
-    st = proto_item_add_subtree(ti, ett_dji_mimo_ble);
+    proto_item *ti = proto_tree_add_item(tree, proto_dji_mimo_ble, tvb, 0, -1, ENC_NA);
+    proto_tree *st = proto_item_add_subtree(ti, ett_dji_mimo_ble);
 
+    int offset = 0;
     proto_tree_add_item(st, hf_dji_mimo_ble_magic, tvb, offset, 1, ENC_LITTLE_ENDIAN);
     offset += 1;
     proto_tree_add_item(st, hf_dji_mimo_ble_length, tvb, offset, 1, ENC_LITTLE_ENDIAN);
@@ -72,12 +71,15 @@ static int dissect_dji_mimo_ble(tvbuff_t *tvb, packet_info *pinfo, proto_tree *t
     proto_tree_add_item(st, hf_dji_mimo_ble_message_id, tvb, offset, 2, ENC_BIG_ENDIAN);
     offset += 2;
     proto_tree_add_item(st, hf_dji_mimo_ble_message_type, tvb, offset, 3, ENC_BIG_ENDIAN);
+    guint32 message_type = tvb_get_guint24(tvb, offset, ENC_BIG_ENDIAN);
     offset += 3;
     proto_tree_add_item(st, hf_dji_mimo_ble_payload, tvb, offset, length-13, ENC_LITTLE_ENDIAN);
     offset += length-13;
     proto_tree_add_item(st, hf_dji_mimo_ble_crc16_msg, tvb, offset, 2, ENC_LITTLE_ENDIAN);
     offset += 2;
 
+    col_append_str(pinfo->cinfo, COL_INFO, "; ");
+    col_append_str(pinfo->cinfo, COL_INFO, val_to_str(message_type, message_type_string, "unknown_unknown_%X"));
     return offset;
 }
 

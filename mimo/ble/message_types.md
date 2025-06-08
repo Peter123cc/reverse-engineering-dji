@@ -927,3 +927,61 @@ DJI MIMO BLE
     msg_type: Unknown (0x400707)
     payload: 20
     crc16_msg: 0x10dc
+
+
+## `0x4007ab`
+
+### Thoughts
+
+No payload, do not know what it is. Calling `unknown_4007AB`.
+
+### Samples
+
+Bluetooth Attribute Protocol
+    Opcode: Write Command (0x52)
+        0... .... = Authentication Signature: False
+        .1.. .... = Command: True
+        ..01 0010 = Method: Write Request (0x12)
+    Handle: 0x0030 (Unknown: Car Connectivity Consortium, LLC)
+        [Service UUID: Unknown (0xfff0)]
+        [UUID: Car Connectivity Consortium, LLC (0xfff5)]
+    Value: 550d0433021bb0bb4007ab6633
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0d
+    proto_ver: 0x04
+    crc8_hdr: 0x33
+    subsystem: 0x021b
+    msg_id: 0xb0bb
+    msg_type: Unknown (0x4007ab)
+    payload: <MISSING>
+    crc16_msg: 0x3366
+
+
+## `0xc007ac`
+
+### Thoughts
+
+I have no idea how to interpret:
+01 11 02 00 b5 d0 000000 75 2b
+
+Let's call it `unknown_C007AC`. But judging from the message type, I guess it is something related to streaming configuration.
+
+### Samples
+
+Frame 10000: 36 bytes on wire (288 bits), 36 bytes captured (288 bits)
+Bluetooth
+Bluetooth HCI H4
+Bluetooth HCI ACL Packet
+Bluetooth L2CAP Protocol
+Bluetooth Attribute Protocol
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x18
+    proto_ver: 0x04
+    crc8_hdr: 0x20
+    subsystem: 0x021b
+    msg_id: 0x0000
+    msg_type: Unknown (0xc007ac)
+    payload: 01110200b5d0000000752b
+    crc16_msg: 0xc280
