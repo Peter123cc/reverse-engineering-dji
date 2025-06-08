@@ -1232,3 +1232,23 @@ DJI MIMO BLE
     payload: 00
     crc16_msg: 0x9b4e
 
+
+
+## `0xC00747`
+
+### Thoughts
+
+It seems pretty obviously a response to `0x400747`, this this is a report of connecting to WiFi. Assuming payload `0x000000` means "everything is OK".
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x10
+    proto_ver: 0x04
+    crc8_hdr: 0x56
+    subsystem: 0x0702
+    msg_id: 0x198c
+    msg_type: Unknown (0xc00747)
+    payload: 000000
+    crc16_msg: 0xb8f3

@@ -41,6 +41,7 @@ static const value_string message_type_string[] = {
     { 0x400746, "pairing_pin_approved" },
     { 0xC00746, "pairing_stage1" },
     { 0x400747, "connect_to_wifi" },
+    { 0xC00747, "connect_to_wifi_result" },
     { 0x4007AB, "start_scan_wifi?" },
     { 0xC007AB, "start_scan_wifi?_result" },
     { 0x4007AC, "wifi_scan_results" },
