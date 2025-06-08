@@ -10,3 +10,6 @@ and `adb pull` to get the resulting report. Inside the archive look for file `FS
 Then install the Wireshark plugin from [`./mimo/ble/wireshark-dissector/`](./mimo/ble/wireshark-dissector/), and use Wireshark to open the file. You'll get something like this:
 ![](./imgs/wireshark_screenshot.png)
 
+I've managed to make livestreaming work on my DJI Osmo Pocket 3. And I guess for now I'm pausing any further reverse engineering, since that was the feature that I needed.
+
+But I'm happy to answer any questions if you are having problems to continue the research.
