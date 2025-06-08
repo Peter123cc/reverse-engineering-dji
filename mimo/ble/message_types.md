@@ -864,6 +864,67 @@ DJI MIMO BLE
     payload [truncated]: 0111000018010100010064736c6d6f64656d2e64782e63656e7465721d0101000000736c6f772e64736c6d6f64656d2e64782e63656e7465720f0101010000564d383136343933300f0101010000564d3737303438313411010102000065697232333031323934321101010201
     crc16_msg: 0xfd40
 
+## `0x40028e`
+
+### Thoughts
+
+<no time to explain; see the samples>
+
+### Samples
+
+Frame 2270: 29 bytes on wire (232 bits), 29 bytes captured (232 bits)
+Bluetooth
+Bluetooth HCI H4
+Bluetooth HCI ACL Packet
+Bluetooth L2CAP Protocol
+Bluetooth Attribute Protocol
+    Opcode: Write Command (0x52)
+    Handle: 0x0030 (Unknown: Car Connectivity Consortium, LLC)
+    Value: 551104920208ffab40028e00011c003bc8
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x11
+    proto_ver: 0x04
+    crc8_hdr: 0x92
+    subsystem: 0x0208
+    msg_id: 0xffab
+    msg_type: start_stop_streaming (0x40028e)
+    payload: 00011c00
+    crc16_msg: 0xc83b
+
+(when preparing to stream)
+
+## `0x80028e`
+
+### Thoughts
+
+Seems like a response to `0x40028e` during preparing to stream (see above), since it happens shortly after and it duplicates the `00011c00` content.
+
+Let's name this `start_stop_stream_result?`.
+
+### Samples
+
+
+Frame 2277: 40 bytes on wire (320 bits), 40 bytes captured (320 bits)
+Bluetooth
+Bluetooth HCI H4
+Bluetooth HCI ACL Packet
+Bluetooth L2CAP Protocol
+Bluetooth Attribute Protocol
+    Opcode: Handle Value Notification (0x1b)
+    Handle: 0x002d (Unknown: FiRa Consortium)
+    Value: 551c041b0802ffab80028e0000011c0009000900000000000020e729
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x1c
+    proto_ver: 0x04
+    crc8_hdr: 0x1b
+    subsystem: 0x0802
+    msg_id: 0xffab
+    msg_type: Unknown (0x80028e)
+    payload: 0000011c0009000900000000000020
+    crc16_msg: 0x29e7
+
 ## `0xc0028e`
 
 ### Thoughts
@@ -1082,3 +1143,36 @@ DJI MIMO BLE
     crc16_msg: 0x5f8c
 
 (when pairing was not required)
+
+
+## `0x400088`
+
+### Thoughts
+
+I received this soon after sending `0x4002e1`. Not sure what it is. Something like `preparing_finished`?
+
+Let's call it "unknown_400088"
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0f
+    proto_ver: 0x04
+    crc8_hdr: 0xa2
+    subsystem: 0x2802
+    msg_id: 0x5520
+    msg_type: Unknown (0x400088)
+    payload: 1900
+    crc16_msg: 0xc92c
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0f
+    proto_ver: 0x04
+    crc8_hdr: 0xa2
+    subsystem: 0x2802
+    msg_id: 0xc720
+    msg_type: Unknown (0x400088)
+    payload: 1900
+    crc16_msg: 0xcd43
