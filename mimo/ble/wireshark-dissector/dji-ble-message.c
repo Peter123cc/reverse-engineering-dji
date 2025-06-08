@@ -29,6 +29,7 @@ static const value_string message_type_string[] = {
     { 0x80028E, "start_stop_streaming_result" },
     { 0xC0028E, "unknown_C0028E" },
     { 0x4002E1, "prepare_to_livestream" },
+    { 0xC002E1, "prepare_to_livestream_report" },
     { 0x0002DC, "unknown_2DC" },
     { 0x000405, "B_status?" },
     { 0x00041C, "unknown_41C" },

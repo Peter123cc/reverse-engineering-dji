@@ -1149,7 +1149,7 @@ DJI MIMO BLE
 
 ### Thoughts
 
-I received this soon after sending `0x4002e1`. Not sure what it is. Something like `preparing_finished`?
+I received this soon after sending `0x4002e1`. Not sure what it is.
 
 Let's call it "unknown_400088"
 
@@ -1176,3 +1176,22 @@ DJI MIMO BLE
     msg_type: Unknown (0x400088)
     payload: 1900
     crc16_msg: 0xcd43
+
+## `0xc002e1`
+
+### Thoughts
+
+The message type is very similar to `0x4002e1`, and this is the first unknown message that happened after `0x4002e1`, so let's call it `prepare_to_livestream_report`. Assuming `0x00` payload means "everything is OK".
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0e
+    proto_ver: 0x04
+    crc8_hdr: 0x66
+    subsystem: 0x0802
+    msg_id: 0xfeab
+    msg_type: Unknown (0xc002e1)
+    payload: 00
+    crc16_msg: 0x618a
