@@ -18,6 +18,32 @@ static int hf_dji_mimo_ble_message_id;
 static int hf_dji_mimo_ble_message_type;
 static int hf_dji_mimo_ble_payload;
 static int hf_dji_mimo_ble_crc16_msg;
+static const value_string message_type_string[] = {
+    { 0x400032, "unknown_400032" },
+    { 0x400081, "device_info" },
+    { 0x000099, "field_value" },
+    { 0x0000F1, "keep_alive_F1?" },
+    { 0x000280, "pairing_started" },
+    { 0x40028E, "start_stop_streaming" },
+    { 0xC0028E, "unknown_C0028E" },
+    { 0x4002E1, "prepare_to_livestream" },
+    { 0x0002DC, "unknown_2DC" },
+    { 0x000405, "status_report?" },
+    { 0x00041C, "unknown_41C" },
+    { 0x000427, "keep_alive_427?" },
+    { 0x000438, "unknown_438" },
+    { 0x400707, "unknown_400707" },
+    { 0x400745, "set_pairing_pin" },
+    { 0xC00746, "pair" },
+    { 0x400747, "connect_to_wifi" },
+    { 0xC007AB, "unknown_C007AB" },
+    { 0x4007AC, "wifi_scan_results" },
+    { 0x400878, "configure_streaming" },
+    { 0x000D02, "streaming_status?" },
+    { 0x042700, "pairing_required" },
+    { 0x80EE03, "unknown_80EE03" },
+    { 0, NULL }
+};
 
 static int dissect_dji_mimo_ble(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_)
 {
@@ -105,6 +131,7 @@ static void proto_register_dji_mimo_ble(void)
             {
                 "msg_type", "dji_mimo_ble.message_type",
                 FT_UINT24, BASE_HEX,
+                VALS(message_type_string),
             }
         },
         {
