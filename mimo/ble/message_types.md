@@ -170,6 +170,7 @@ DJI MIMO BLE
 ### Thoughts
 
 If we compare payloads:
+* e3060000ffff800000000001912e0500a92a0000cefcf4ffee27983c069650bfd330143fee1ed63c000000000100000000
 * e3060000ffff80000000000179320500a92a0000cefcf4ffac1f983cef9550bff430143ff221d63c000000000100000000
 * e3060000ffff800000000001dd320500a92a0000cefcf4ff182e983c209650bfae30143f2a1dd63c000000000100000000
 * e3060000ffff800000000001a5330500a92a0000cefcf4ff3820983cf39550bfe930143f632cd63c000000000100000000
@@ -189,6 +190,24 @@ e3060000 fX ff800000000001 XX XX 0500a92a0000cefc fX ff XXXX 983c XX 9X 50bf XX 
 I don't know. Let's just call it 'status_report?'
 
 ### Samples
+
+Frame 552: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)
+Bluetooth
+Bluetooth HCI H4
+Bluetooth HCI ACL Packet
+Bluetooth L2CAP Protocol
+Bluetooth Attribute Protocol
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x3e
+    proto_ver: 0x04
+    crc8_hdr: 0x4b
+    subsystem: 0x0402
+    msg_id: 0x4c12
+    msg_type: status_report? (0x000405)
+    payload: e3060000ffff800000000001912e0500a92a0000cefcf4ffee27983c069650bfd330143fee1ed63c000000000100000000
+    crc16_msg: 0xd16b
+
 
 Frame 597: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)
 Bluetooth
@@ -387,7 +406,7 @@ DJI MIMO BLE
 
 ### Thoughts
 
-Is this just a "keep alive"? BTW, `427` is also met in other way in the `pairing_required`... does it mean they are connected? (seems unlikely)
+Is this just a "keep alive"?
 
 Let's name it `keep_alive_427?`
 
@@ -875,9 +894,9 @@ DJI MIMO BLE
 
 ### Thoughts
 
-Yeah, I have no idea what `3131000000` is.
+Yeah, I have no idea what `3131000000` is. However, this seems to be a part of the pairing process.
 
-Let's call it `unknown_400032`
+Let's call it `pairing_stage2`.
 
 ### Samples
 
@@ -985,3 +1004,81 @@ DJI MIMO BLE
     msg_type: Unknown (0xc007ac)
     payload: 01110200b5d0000000752b
     crc16_msg: 0xc280
+
+## `0xC00746`
+
+### Thoughts
+
+This seems to be a part of the pairing process. IIRC, it happened when I've approved/confirmed the PIN during pairing. Let's call this `pairing_stage1`.
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0e
+    proto_ver: 0x04
+    crc8_hdr: 0x66
+    subsystem: 0x0207
+    msg_id: 0x0400
+    msg_type: pair (0xc00746)
+    payload: 00
+    crc16_msg: 0x2835
+
+## `0x400746`
+
+### Thoughts
+
+This happens right before DJI MIMO sent `0xC00746` (which seems to be a pairing command). So I assume this is a notification that the PIN was approved. Let's call this `pairing_pin_approved`
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0e
+    proto_ver: 0x04
+    crc8_hdr: 0x66
+    subsystem: 0x0702
+    msg_id: 0x0400
+    msg_type: Unknown (0x400746)
+    payload: 01
+    crc16_msg: 0x7310
+
+
+## `0xc00745`
+
+### Thoughts
+
+This was received soon after we set the pairing PIN. I haven't found a signal saying that pairing is required, so I assume this is a signal that it is actually required (and we notify about that only after sending the PIN, which is weird).
+
+It seems like `payload` `0x0002` means pairing required, and `0x0001` means it is not required
+
+Let's call it 'pairing_status'
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0f
+    proto_ver: 0x04
+    crc8_hdr: 0xa2
+    subsystem: 0x0702
+    msg_id: 0x72aa
+    msg_type: Unknown (0xc00745)
+    payload: 0002
+    crc16_msg: 0x6900
+
+(when pairing was required)
+
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0f
+    proto_ver: 0x04
+    crc8_hdr: 0xa2
+    subsystem: 0x0702
+    msg_id: 0xfcab
+    msg_type: pairing_required? (0xc00745)
+    payload: 0001
+    crc16_msg: 0x5f8c
+
+(when pairing was not required)

@@ -19,7 +19,7 @@ static int hf_dji_mimo_ble_message_type;
 static int hf_dji_mimo_ble_payload;
 static int hf_dji_mimo_ble_crc16_msg;
 static const value_string message_type_string[] = {
-    { 0x400032, "unknown_400032" },
+    { 0x400032, "pairing_stage2" },
     { 0x400081, "device_info" },
     { 0x000099, "field_value" },
     { 0x0000F1, "keep_alive_F1?" },
@@ -34,7 +34,9 @@ static const value_string message_type_string[] = {
     { 0x000438, "unknown_438" },
     { 0x400707, "unknown_400707" },
     { 0x400745, "set_pairing_pin" },
-    { 0xC00746, "pair" },
+    { 0xC00745, "pairing_status" },
+    { 0x400746, "pairing_pin_approved" },
+    { 0xC00746, "pairing_stage1" },
     { 0x400747, "connect_to_wifi" },
     { 0x4007AB, "unknown_4007AB" },
     { 0xC007AB, "unknown_C007AB" },
@@ -42,7 +44,6 @@ static const value_string message_type_string[] = {
     { 0xC007AC, "unknown_C007AC" },
     { 0x400878, "configure_streaming" },
     { 0x000D02, "streaming_status?" },
-    { 0x042700, "pairing_required" },
     { 0x80EE03, "unknown_80EE03" },
     { 0, NULL }
 };
