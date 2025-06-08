@@ -1195,3 +1195,40 @@ DJI MIMO BLE
     msg_type: Unknown (0xc002e1)
     payload: 00
     crc16_msg: 0x618a
+
+## `0x4007AB`
+
+### Thoughts
+
+The message type is very close to `0x4007AC`. So assuming this is a request to scan WiFi.
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0d
+    proto_ver: 0x04
+    crc8_hdr: 0x33
+    subsystem: 0x021b
+    msg_id: 0x00ac
+    msg_type: unknown_4007AB (0x4007ab)
+    payload: <MISSING>
+    crc16_msg: 0xf962
+
+## `0xC007AB`
+
+Seems to be a response to `0x4007AC`. Assuming payload `0x00` means "OK".
+
+### Samples
+
+DJI MIMO BLE
+    magic: 0x55
+    msg_len: 0x0e
+    proto_ver: 0x04
+    crc8_hdr: 0x66
+    subsystem: 0x0702
+    msg_id: 0x00ac
+    msg_type: unknown_C007AB (0xc007ab)
+    payload: 00
+    crc16_msg: 0x9b4e
+
